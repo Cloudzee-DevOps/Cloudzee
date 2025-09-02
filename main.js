@@ -1,0 +1,86 @@
+/* ====== Config ====== 
+   Set one of the endpoints below to handle form leads.
+   - Google Sheets Apps Script (recommended for static hosting)
+   - Your own Express/MongoDB API
+   - EmailJS (client-side email)
+*/
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxz4VN1CkJF9KYwcDjjUuR7qJ1AaE1llnky6G7_59PU7Eq5RaEGM-tftumt_IAluAIAHA/exec"; // e.g. "https://script.google.com/macros/s/XXXXX/exec"
+const EMAILJS_ENABLED = false;  // if using EmailJS, set true & configure below
+
+/* ====== Nav Toggle (mobile) ====== */
+const toggleBtn = document.querySelector('.nav-toggle');
+const nav = document.querySelector('.nav');
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    const expanded = toggleBtn.getAttribute('aria-expanded') === 'true' || false;
+    toggleBtn.setAttribute('aria-expanded', String(!expanded));
+    nav.classList.toggle('show');
+  });
+}
+
+/* ====== Reveal on Scroll ====== */
+const observer = new IntersectionObserver((entries)=> {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.16 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ====== Footer year ====== */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ====== Lead Form ====== */
+const form = document.getElementById('lead-form');
+const statusEl = document.getElementById('form-status');
+
+function showStatus(msg, ok=true){
+  statusEl.textContent = msg;
+  statusEl.style.color = ok ? '#6ee7b7' : '#fca5a5';
+}
+
+async function submitToEndpoint(payload){
+  if(!ENDPOINT_URL) return { ok:false, message:"Form endpoint not configured." };
+
+  try{
+    const body = new URLSearchParams(payload).toString(); // <-- urlencoded avoids preflight
+    const res = await fetch(ENDPOINT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return { ok:true };
+  }catch(err){
+    return { ok:false, message: err.message || 'Network error' };
+  }
+}
+
+if (form) {
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+
+    // spam trap
+    if (form.website && form.website.value) return;
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (!data.email || !data.name || !data.message) {
+      showStatus("Please fill name, email, and message.", false);
+      return;
+    }
+
+    showStatus("Sending…");
+    // Option A: POST to your endpoint
+    const r = await submitToEndpoint({
+      ...data,
+      page: location.href,
+      ts: new Date().toISOString()
+    });
+
+    if (r.ok) {
+      form.reset();
+      showStatus("Thanks! We’ll get back to you shortly.");
+    } else {
+      // Option B: fallback to mailto if endpoint not set
+      showStatus("Could not send automatically. Opening email…", false);
+      location.href = `mailto:hello@cloudzee.dev?subject=Lead from ${encodeURIComponent(data.name)}&body=${encodeURIComponent(data.message + "\n\nEmail: " + data.email + (data.company? "\nCompany: "+data.company:"") + (data.budget? "\nBudget: "+data.budget:""))}`;
+    }
+  });
+}
