@@ -219,53 +219,6 @@
       </div>
     </div>
   </section>
-  
-    <!-- ====== Happy Customers (Reviews) ====== -->
-  <section id="reviews" class="section section--alt">
-    <div class="container">
-      <h2 class="section__title">Happy Customers</h2>
-      <p class="muted">Share your experience with CLOUDZEE</p>
-  
-      <form id="review-form" class="form" novalidate>
-        <!-- spam trap -->
-        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <input type="hidden" name="form" value="review"> <!-- tells Apps Script which sheet -->
-  
-        <div class="grid form__grid">
-          <label class="field">
-            <span>Your name</span>
-            <input name="name" type="text" placeholder="Jane Doe" required>
-          </label>
-  
-          <label class="field">
-            <span>Email (not shown publicly)</span>
-            <input name="email" type="email" placeholder="you@company.com" required>
-          </label>
-  
-          <label class="field">
-            <span>Company (optional)</span>
-            <input name="company" type="text" placeholder="Acme Inc.">
-          </label>
-  
-          <label class="field">
-            <span>Rating</span>
-            <select name="rating" required>
-              <option value="">Select…</option>
-              <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
-            </select>
-          </label>
-        </div>
-  
-        <label class="field">
-          <span>Your review</span>
-          <textarea name="review" rows="5" placeholder="What did we help you achieve?" required></textarea>
-        </label>
-  
-        <button class="btn" type="submit">Submit review</button>
-        <p id="review-status" class="form__status" role="status" aria-live="polite"></p>
-      </form>
-    </div>
-  </section>
 
   <!-- ====== Contact / Lead Form ====== -->
   <section id="contact" class="section section--alt">
@@ -318,6 +271,55 @@
       </form>
     </div>
   </section>
+
+    
+    <!-- ====== Happy Customers (Reviews) ====== -->
+  <section id="reviews" class="section section--alt">
+    <div class="container">
+      <h2 class="section__title">Your review matters..!!</h2>
+      <p class="muted">Share your experience with CLOUDZEE</p>
+  
+      <form id="review-form" class="form" novalidate>
+        <!-- spam trap -->
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="form" value="review"> <!-- tells Apps Script which sheet -->
+  
+        <div class="grid form__grid">
+          <label class="field">
+            <span>Your name</span>
+            <input name="name" type="text" placeholder="Jane Doe" required>
+          </label>
+  
+          <label class="field">
+            <span>Email (not shown publicly)</span>
+            <input name="email" type="email" placeholder="you@company.com" required>
+          </label>
+  
+          <label class="field">
+            <span>Company (optional)</span>
+            <input name="company" type="text" placeholder="Acme Inc.">
+          </label>
+  
+          <label class="field">
+            <span>Rating</span>
+            <select name="rating" required>
+              <option value="">Select…</option>
+              <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+            </select>
+          </label>
+        </div>
+  
+        <label class="field">
+          <span>Your review</span>
+          <textarea name="review" rows="5" placeholder="What did we help you achieve?" required></textarea>
+        </label>
+  
+        <button class="btn" type="submit">Submit review</button>
+        <p id="review-status" class="form__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
 
   <!-- ====== Footer ====== -->
   <footer class="site-footer">
