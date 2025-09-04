@@ -84,3 +84,39 @@ if (form) {
     }
   });
 }
+
+// ====== Review Form ======
+const reviewForm = document.getElementById('review-form');
+const reviewStatus = document.getElementById('review-status');
+
+function showReviewStatus(msg, ok=true){
+  reviewStatus.textContent = msg;
+  reviewStatus.style.color = ok ? '#6ee7b7' : '#fca5a5';
+}
+
+if (reviewForm) {
+  reviewForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    if (reviewForm.website && reviewForm.website.value) return; // honeypot
+
+    const data = Object.fromEntries(new FormData(reviewForm).entries());
+    if (!data.name || !data.email || !data.rating || !data.review) {
+      showReviewStatus("Please fill name, email, rating and review.", false);
+      return;
+    }
+
+    showReviewStatus("Sending…");
+    const r = await submitToEndpoint({
+      ...data,              // includes form=review
+      page: location.href,
+      ts: new Date().toISOString()
+    });
+
+    if (r.ok){
+      reviewForm.reset();
+      showReviewStatus("Thanks for your review! ✅");
+    } else {
+      showReviewStatus("Could not send automatically.", false);
+    }
+  });
+}
