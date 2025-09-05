@@ -142,3 +142,21 @@ body{
 
 /* Reviews */
 #reviews .form { margin-top: 1rem; }
+.reviews-list {
+  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.reviews-list .card {
+  background: var(--card);
+  padding: 1.2rem;
+  border-radius: var(--radius);
+  border: 1px solid #1b2743;
+}
+
+.reviews-list .card strong {
+  display:block;
+  margin-top:.6rem;
+  color: var(--primary);
+}
+
