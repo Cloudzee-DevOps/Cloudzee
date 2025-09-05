@@ -4,7 +4,7 @@
    - Your own Express/MongoDB API
    - EmailJS (client-side email)
 */
-const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxlnDjPjnZqJUhOgjaJn_Ws9YGHSlTsUeQqCJvwg9LjxdSBV2XnqBErjx4wBvBx9dSk3A/exec"; // e.g. "https://script.google.com/macros/s/XXXXX/exec"
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxSSOCEpyOdRq5hXWoXlAgSMwyELUZwCApKL2x8E3LF_sp66aOpHAsrElS7QovtYa3K7w/exec"; // e.g. "https://script.google.com/macros/s/XXXXX/exec"
 const EMAILJS_ENABLED = false;  // if using EmailJS, set true & configure below
 
 /* ====== Nav Toggle (mobile) ====== */
