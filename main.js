@@ -120,3 +120,33 @@ if (reviewForm) {
     }
   });
 }
+// ====== Fetch & Render Reviews ======
+async function loadReviews() {
+  const list = document.getElementById('reviews-list');
+  if (!list) return;
+
+  try {
+    const res = await fetch(ENDPOINT_URL); // GET request
+    const reviews = await res.json();
+
+    if (!reviews.length) {
+      list.innerHTML = "<p class='muted'>No reviews yet. Be the first to share!</p>";
+      return;
+    }
+
+    list.innerHTML = reviews.map(r => `
+      <article class="card">
+        <p class="testimonial__text">“${r.review}”</p>
+        <strong>${r.name}</strong>
+        ${r.company ? `<span class="muted">${r.company}</span>` : ""}
+        <span class="muted">⭐ ${r.rating}/5</span>
+      </article>
+    `).join("");
+  } catch (err) {
+    list.innerHTML = "<p class='muted'>Could not load reviews.</p>";
+  }
+}
+
+// Load on page start
+loadReviews();
+
